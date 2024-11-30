@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Payment</h1>
+{% if error %}
+<p style="color: red;">Error: {{ error }}</p>
+{% endif %}
+<p>Total Amount: ${{ total_amount }}</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">Pay with PayPal</button>
+</form>
+{% endblock %}

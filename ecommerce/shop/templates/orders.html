@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Your Orders</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Date Ordered</th>
+            <th>Rating</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.product.name }}</td>
+            <td>{{ order.date_ordered }}</td>
+            <td>
+                {% if order.rating %}
+                    {{ order.rating }} / 5
+                {% else %}
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <select name="rating" class="form-select" required>
+                            <option value="" disabled selected>Select rating</option>
+                            {% for i in "12345"|make_list %}
+                            <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-primary btn-sm mt-1">Submit</button>
+                    </form>
+                {% endif %}
+            </td>
+            <td>
+                {% if not order.is_returned %}
+                <form action="{% url 'mark_return' order.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Return</button>
+                </form>
+                {% else %}
+                Returned
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
