@@ -1,0 +1,20 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Register</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% if form.errors %}
+        <ul>
+            {% for field, errors in form.errors.items %}
+                <li>
+                    <strong>{{ field|capfirst }}:</strong> {{ errors|join:", " }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <button type="submit">Register</button>
+</form>
+{% endblock %}

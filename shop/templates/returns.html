@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1>Your Returned Orders</h1>
+        <div class="order-list">
+            {% if orders %}
+                <ul>
+                    {% for order_item in orders %}
+                        <li class="order-item">
+                            <div class="order-details">
+                                <div class="order-info">
+                                    <h2>{{ order_item.product.name }}</h2>
+                                    <p><strong>Order Date:</strong> {{ order_item.date_ordered }}</p>
+                                    <p><strong>Price:</strong> inr {{ order_item.product.price }}</p>
+                                    <p><strong>Return Status:</strong> {% if order_item.is_returned %} Returned {% else %} Not Returned {% endif %}</p>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>You have no returned orders.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

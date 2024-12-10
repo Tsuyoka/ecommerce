@@ -1,0 +1,34 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Your Cart</h1>
+
+<!-- Payment Status Banner -->
+{% if payment_status == 'success' %}
+<div class="alert alert-success" role="alert">
+    Payment was successful! Thank you for your order.
+</div>
+{% elif payment_status == 'failed' %}
+<div class="alert alert-danger" role="alert">
+    Payment failed. Please try again.
+</div>
+{% endif %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart_items %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>${{ item.product.price }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
+{% endblock %}
